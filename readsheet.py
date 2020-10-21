@@ -5,9 +5,12 @@ from googleapiclient.discovery import build
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 SPREADSHEET_ID = os.getenv('SHEET_ID')
-CPU_RANGE = 'Sheet1!A2:B22'
-GPU_RANGE = 'Sheet1!C2:D'
-MB_RANGE = 'Sheet1!E2:F'
+ITEM_CATEGORIES = os.getenv('ITEM_CATEGORIES').split(',')
+ITEM_RANGES = os.getenv('ITEM_RANGES').split(',')
+
+ITEMS = dict()
+for x in range(len(ITEM_CATEGORIES)):
+    ITEMS[ITEM_CATEGORIES[x]] = ITEM_RANGES[x]
 
 API_KEY = os.getenv('SHEETS_API_KEY')
 
@@ -18,10 +21,8 @@ def main():
     # # Call the Sheets API
     sheet = service.spreadsheets()
 
-    # Get prices for each item category
-    getPrices(sheet, CPU_RANGE, 'CPU')
-    getPrices(sheet, GPU_RANGE, 'GPU')
-    getPrices(sheet, MB_RANGE, 'Motherboard')
+    for key in ITEMS.keys():
+        getPrices(sheet, ITEMS[key], key)
 
 
 def getPrices(sheet, sheet_range, name):
