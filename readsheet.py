@@ -43,7 +43,7 @@ def insertPart(part, part_type):
         collection.insert_one(part)
         print("Inserted %s: %s" % (part_type, part['name']))
 
-    check_prices()
+    # check_prices()
     # print(db)
 
 
