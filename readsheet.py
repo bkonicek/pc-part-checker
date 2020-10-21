@@ -7,10 +7,11 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 SPREADSHEET_ID = os.getenv('SHEET_ID')
 ITEM_CATEGORIES = os.getenv('ITEM_CATEGORIES').split(',')
 ITEM_RANGES = os.getenv('ITEM_RANGES').split(',')
+SHEET_TAB = 'Sheet1'
 
 ITEMS = dict()
 for x in range(len(ITEM_CATEGORIES)):
-    ITEMS[ITEM_CATEGORIES[x]] = ITEM_RANGES[x]
+    ITEMS[ITEM_CATEGORIES[x]] = '%s!%s' % (SHEET_TAB, ITEM_RANGES[x])
 
 API_KEY = os.getenv('SHEETS_API_KEY')
 
@@ -18,9 +19,10 @@ API_KEY = os.getenv('SHEETS_API_KEY')
 def main():
     service = build('sheets', 'v4', developerKey=API_KEY)
 
-    # # Call the Sheets API
+    # Call the Sheets API
     sheet = service.spreadsheets()
 
+    # Get prices for each category we're interested in
     for key in ITEMS.keys():
         getPrices(sheet, ITEMS[key], key)
 
