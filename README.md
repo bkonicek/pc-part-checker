@@ -11,8 +11,8 @@ Set the following environment variables:
 
 ## TODO
 - [x] Pull each item and its price per category I'm interested in from the table
-- [ ] Add most recent price to a db table
-- [ ] Send alert if any item's price changes (email/slack/sms?) - Look into Apprise
+- [x] Add most recent price to a db table
+- [ ] Send alert if any item's price changes (email/slack/sms?) - Use [apprise-api](https://github.com/bkonicek/apprise-api)?
 - [ ] Dockerize it
 - [ ] Add CI/CD pipeline
 - [ ] Figure out where it should run from
