@@ -43,6 +43,7 @@ def main():
             getPrices(sheet, ITEMS[key], key)
         check_prices()
         print('Sleeping for %s seconds before checking again' % CHECK_INTERVAL)
+        update_list.clear()
         time.sleep(CHECK_INTERVAL)
 
 
@@ -67,6 +68,7 @@ def insertPart(part, part_type):
                 "last_price": int(orig['price']),
                 "current_price": int(part['price'])
             })
+    client.close()
 
 
 def check_prices():
