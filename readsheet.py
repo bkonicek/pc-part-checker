@@ -71,10 +71,12 @@ def insertPart(part, part_type):
 
 def check_prices():
     apprise_client = apprise.Apprise()
+    config = apprise.AppriseConfig()
     if APPRISE_CONFIG_STRING:
-        apprise_client.add(APPRISE_CONFIG_STRING)
+        config.add(APPRISE_CONFIG_STRING)
     if APPRISE_CONFIG_URL:
-        apprise_client.add(APPRISE_CONFIG_URL)
+        config.add(APPRISE_CONFIG_URL)
+    apprise_client.add(config)
     if len(update_list) <= 0:
         print('No prices changed since last check')
     else:

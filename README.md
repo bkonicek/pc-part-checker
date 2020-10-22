@@ -10,7 +10,7 @@ Set the following environment variables:
 - `API_KEY` - API key in Google API console for this app to use
 - `DB_HOST` - Hostname and port of the MongoDB server
 - `CHECK_INTERVAL` (optional) - Frequency to check for new prices
-- `APPRISE_CONFIG_STRING` - Notification configuration for apprise to send a notification
+- `APPRISE_CONFIG_STRING` - Notification configuration or file path of configuration for apprise to send a notification
 - `APPRISE_CONFIG_URL` - URL of config file for apprise notifications
 
 ## TODO
