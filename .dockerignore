@@ -1,0 +1,13 @@
+.git
+.cache
+.gitignore
+.python-version
+.vscode
+
+README.md
+
+terraform/
+**/*.tf
+**/.terraform
+
+config/apprise-test.conf
