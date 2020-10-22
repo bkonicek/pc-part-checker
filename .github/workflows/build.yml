@@ -47,7 +47,7 @@ jobs:
         run: |
           # report warnings but don't error
           pylint readsheet.py --exit-zero --disable=E
-          # fail the build on any errors, unless disabled
+          # fail the build on any errors, unless disabled 
           pylint readsheet.py -E
 
       - name: Docker Setup Buildx
