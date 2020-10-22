@@ -71,12 +71,12 @@ def insertPart(part, part_type):
 
 def check_prices():
     apprise_client = apprise.Apprise()
-    config = apprise.AppriseConfig()
     if APPRISE_CONFIG_STRING:
-        config.add(APPRISE_CONFIG_STRING)
+        apprise_client.add(APPRISE_CONFIG_STRING)
     if APPRISE_CONFIG_URL:
+        config = apprise.AppriseConfig()
         config.add(APPRISE_CONFIG_URL)
-    apprise_client.add(config)
+        apprise_client.add(config)
     if len(update_list) <= 0:
         print('No prices changed since last check')
     else:
@@ -85,10 +85,10 @@ def check_prices():
                 apprise_client.notify(
                     body='<b><h2>Price Drop Alert</h2></b><br><p>%s: %s dropped <b>$%d</b>, new price: $%d' % (
                         parts['type'], parts['name'], (parts['last_price'] - parts['current_price']), parts['current_price']),
-                    title='Fanatech Price Drop'
+                    title='PC Part Price Drop'
                 )
-                # print('%s price dropped $%s' %
-                #       (parts['name'], (parts['last_price'] - parts['current_price'])))
+                print('%s price dropped $%s' %
+                      (parts['name'], (parts['last_price'] - parts['current_price'])))
 
 
 def getPrices(sheet, sheet_range, name):
