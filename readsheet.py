@@ -13,8 +13,8 @@ ITEM_RANGES = os.getenv('ITEM_RANGES').split(',')
 SHEET_TAB = 'Sheet1'
 
 ITEMS = dict()
-for x in range(len(ITEM_CATEGORIES)):
-    ITEMS[ITEM_CATEGORIES[x]] = '%s!%s' % (SHEET_TAB, ITEM_RANGES[x])
+for count, item in enumerate(ITEM_CATEGORIES):
+    ITEMS[item] = '%s!%s' % (SHEET_TAB, ITEM_RANGES[count])
 
 API_KEY = os.getenv('SHEETS_API_KEY')
 
