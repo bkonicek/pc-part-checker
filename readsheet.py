@@ -1,6 +1,7 @@
 import os.path
 import pymongo
 import re
+import time
 from googleapiclient.discovery import build
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
@@ -20,22 +21,28 @@ DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST')
 
+CHECK_INTERVAL = int(os.getenv('CHECK_INTERVAL', 3600))
+
 update_list = []
 
 
 def main():
     service = build('sheets', 'v4', developerKey=API_KEY)
 
-    # Call the Sheets API
-    sheet = service.spreadsheets()
+    while True:
+        print('Checking sheet for updated pricing...')
+        # Call the Sheets API
+        sheet = service.spreadsheets()
 
-    # Get prices for each category we're interested in
-    for key in ITEMS.keys():
-        getPrices(sheet, ITEMS[key], key)
-    if len(update_list) > 0:
-        check_prices()
-    else:
-        print('No prices changed since last check')
+        # Get prices for each category we're interested in
+        for key in ITEMS.keys():
+            getPrices(sheet, ITEMS[key], key)
+        if len(update_list) > 0:
+            check_prices()
+        else:
+            print('No prices changed since last check')
+        print('Sleeping for %s seconds before checking again' % CHECK_INTERVAL)
+        time.sleep(CHECK_INTERVAL)
 
 
 def insertPart(part, part_type):

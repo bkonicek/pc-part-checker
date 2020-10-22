@@ -8,6 +8,8 @@ Set the following environment variables:
 - `ITEM_CATEGORIES` - Comma separated list of Item categories you want
 - `ITEM_RANGES` - Comma separated list of ranges on the sheet - should correspond to each of the above Item Categories
 - `API_KEY` - API key in Google API console for this app to use
+- `DB_HOST` - Hostname and port of the MongoDB server
+- `CHECK_INTERVAL` (optional) - Frequency to check for new prices
 
 ## TODO
 - [x] Pull each item and its price per category I'm interested in from the table
