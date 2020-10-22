@@ -39,7 +39,7 @@ def main():
         sheet = service.spreadsheets()  # pylint: disable=no-member
 
         # Get prices for each category we're interested in
-        for key in ITEMS.keys():
+        for key in ITEMS:
             getPrices(sheet, ITEMS[key], key)
         check_prices()
         print('Sleeping for %s seconds before checking again' % CHECK_INTERVAL)
