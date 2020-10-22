@@ -20,8 +20,10 @@ Set the following environment variables:
 - `SHEETS_API_KEY` - API key in Google API console for this app to use
 - `DB_HOST` - Hostname and port of the MongoDB server
 - `CHECK_INTERVAL` (optional) - Frequency to check for new prices
-- `APPRISE_CONFIG_STRING` - Notification definition
-- `APPRISE_CONFIG_URL` - Path or URL to config file for apprise notifications
+
+Also set one of:
+- `APPRISE_CONFIG_STRING` - Notification definition (useful for testing or if you don't want to manage config files)
+- `APPRISE_CONFIG_URL` - Path or URL to config file for apprise notifications (e.g. if using apprise-api)
 
 ## TODO
 - [x] Pull each item and its price per category I'm interested in from the table
