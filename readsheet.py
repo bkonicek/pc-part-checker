@@ -40,17 +40,17 @@ def main():
 
         # Get prices for each category we're interested in
         for key in ITEMS:
-            getPrices(sheet, ITEMS[key], key)
+            get_prices(sheet, ITEMS[key], key)
         check_prices()
         print('Sleeping for %s seconds before checking again' % CHECK_INTERVAL)
         update_list.clear()
         time.sleep(CHECK_INTERVAL)
 
 
-def insertPart(part, part_type):
+def insert_part(part, part_type):
     client = pymongo.MongoClient(
         "mongodb://%s/" % DB_HOST)
-    db = client.parts
+    db = client.parts   # pylint: disable=invalid-name
     collection = db[part_type]
     # check if part already exists and update the price if necessary
     orig = collection.find_one_and_update(
@@ -104,7 +104,7 @@ def send_notification(notif_client, part):
     return res
 
 
-def getPrices(sheet, sheet_range, name):
+def get_prices(sheet, sheet_range, name):
     result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
                                 range=sheet_range).execute()
     values = result.get('values', [])
@@ -120,11 +120,11 @@ def getPrices(sheet, sheet_range, name):
                 part['price'] = int(row[1])
             # if price is a range just use the max price
             except:
-                p = re.compile(r'\d+\D+(\d+)')
-                m = p.match(row[1])
-                part['price'] = int(m.group(1))
+                pattern = re.compile(r'\d+\D+(\d+)')
+                match = pattern.match(row[1])
+                part['price'] = int(match.group(1))
 
-            insertPart(part, name)
+            insert_part(part, name)
 
 
 if __name__ == '__main__':
