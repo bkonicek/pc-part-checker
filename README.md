@@ -2,6 +2,9 @@
 I created this when I was planning to build a new PC. A local reseller kept a Google Sheet with his inventory
 and I wanted to monitor it for any price changes.
 
+This is a work in progress and is definitely not going to be pretty code. If you see anything especially
+egregious feel free to let me know.
+
 ## Usage
 Set the following environment variables:
 - `SPREADSHEET_ID` - ID of the spreadsheet to pull from
@@ -17,6 +20,7 @@ Set the following environment variables:
 - [x] Pull each item and its price per category I'm interested in from the table
 - [x] Add most recent price to a db table
 - [x] Send alert if any item's price changes (email/slack/sms?) - Use [apprise-api](https://github.com/bkonicek/apprise-api)?
+- [ ] Add logging
 - [ ] Bulk send price drops instead of individual emails
 - [ ] Dockerize it
 - [ ] Add CI/CD pipeline
