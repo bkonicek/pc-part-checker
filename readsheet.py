@@ -119,7 +119,7 @@ def get_prices(sheet, sheet_range, name):
             try:
                 part['price'] = int(row[1])
             # if price is a range just use the max price
-            except:
+            except ValueError:
                 pattern = re.compile(r'\d+\D+(\d+)')
                 match = pattern.match(row[1])
                 part['price'] = int(match.group(1))
