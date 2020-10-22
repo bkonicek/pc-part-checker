@@ -20,9 +20,10 @@ jobs:
         run: |
           DOCKER_REPOSITORY=bkonicek/pcpricechecker
           VERSION=edge
-
+          echo $GITHUB_REF
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
+            echo $VERSION
           fi
 
           TAGS="${DOCKER_REPOSITORY}:${VERSION}"
