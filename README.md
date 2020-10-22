@@ -11,14 +11,14 @@ I'm also treating this as a fun project to practice DevOps skills, so it's most 
 
 ## Usage
 Set the following environment variables:
-- `SPREADSHEET_ID` - ID of the spreadsheet to pull from
+- `SHEET_ID` - ID of the spreadsheet to pull from
 - `ITEM_CATEGORIES` - Comma separated list of Item categories you want
 - `ITEM_RANGES` - Comma separated list of ranges on the sheet - should correspond to each of the above Item Categories
-- `API_KEY` - API key in Google API console for this app to use
+- `SHEETS_API_KEY` - API key in Google API console for this app to use
 - `DB_HOST` - Hostname and port of the MongoDB server
 - `CHECK_INTERVAL` (optional) - Frequency to check for new prices
 - `APPRISE_CONFIG_STRING` - Notification definition
-- `APPRISE_CONFIG_FILE` - Path or URL to config file for apprise notifications
+- `APPRISE_CONFIG_URL` - Path or URL to config file for apprise notifications
 
 ## TODO
 - [x] Pull each item and its price per category I'm interested in from the table
