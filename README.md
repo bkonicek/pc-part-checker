@@ -10,11 +10,14 @@ Set the following environment variables:
 - `API_KEY` - API key in Google API console for this app to use
 - `DB_HOST` - Hostname and port of the MongoDB server
 - `CHECK_INTERVAL` (optional) - Frequency to check for new prices
+- `APPRISE_CONFIG_STRING` - Notification configuration for apprise to send a notification
+- `APPRISE_CONFIG_URL` - URL of config file for apprise notifications
 
 ## TODO
 - [x] Pull each item and its price per category I'm interested in from the table
 - [x] Add most recent price to a db table
-- [ ] Send alert if any item's price changes (email/slack/sms?) - Use [apprise-api](https://github.com/bkonicek/apprise-api)?
+- [x] Send alert if any item's price changes (email/slack/sms?) - Use [apprise-api](https://github.com/bkonicek/apprise-api)?
+- [ ] Bulk send price drops instead of individual emails
 - [ ] Dockerize it
 - [ ] Add CI/CD pipeline
 - [ ] Figure out where it should run from

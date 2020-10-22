@@ -2,6 +2,7 @@ import os.path
 import pymongo
 import re
 import time
+import apprise
 from googleapiclient.discovery import build
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
@@ -23,6 +24,9 @@ DB_HOST = os.getenv('DB_HOST')
 
 CHECK_INTERVAL = int(os.getenv('CHECK_INTERVAL', 3600))
 
+APPRISE_CONFIG_STRING = os.getenv('APPRISE_CONFIG_STRING', None)
+APPRISE_CONFIG_URL = os.getenv('APPRISE_CONFIG_URL', None)
+
 update_list = []
 
 
@@ -37,10 +41,7 @@ def main():
         # Get prices for each category we're interested in
         for key in ITEMS.keys():
             getPrices(sheet, ITEMS[key], key)
-        if len(update_list) > 0:
-            check_prices()
-        else:
-            print('No prices changed since last check')
+        check_prices()
         print('Sleeping for %s seconds before checking again' % CHECK_INTERVAL)
         time.sleep(CHECK_INTERVAL)
 
@@ -69,10 +70,23 @@ def insertPart(part, part_type):
 
 
 def check_prices():
-    for parts in update_list:
-        if parts['current_price'] < parts['last_price']:
-            print('%s price dropped $%s' %
-                  (parts['name'], (parts['last_price'] - parts['current_price'])))
+    apprise_client = apprise.Apprise()
+    if APPRISE_CONFIG_STRING:
+        apprise_client.add(APPRISE_CONFIG_STRING)
+    if APPRISE_CONFIG_URL:
+        apprise_client.add(APPRISE_CONFIG_URL)
+    if len(update_list) <= 0:
+        print('No prices changed since last check')
+    else:
+        for parts in update_list:
+            if parts['current_price'] < parts['last_price']:
+                apprise_client.notify(
+                    body='<b><h2>Price Drop Alert</h2></b><br><p>%s: %s dropped <b>$%d</b>, new price: $%d' % (
+                        parts['type'], parts['name'], (parts['last_price'] - parts['current_price']), parts['current_price']),
+                    title='Fanatech Price Drop'
+                )
+                # print('%s price dropped $%s' %
+                #       (parts['name'], (parts['last_price'] - parts['current_price'])))
 
 
 def getPrices(sheet, sheet_range, name):
