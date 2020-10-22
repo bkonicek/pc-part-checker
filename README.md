@@ -2,7 +2,10 @@
 
 # PC Parts List
 I created this when I was planning to build a new PC. A local reseller kept a Google Sheet with his inventory
-and I wanted to monitor it for any price changes.
+and I wanted to monitor it for any price changes.  
+
+Data is stored in a MongoDB database, and any notifications for price drops are sent using [Apprise](https://github.com/caronc/apprise).
+CI/CD is currently handled by GitHub Actions.
 
 This is a work in progress and is definitely not going to be pretty code. If you see anything especially
 egregious feel free to let me know.
@@ -24,10 +27,11 @@ Set the following environment variables:
 - [x] Pull each item and its price per category I'm interested in from the table
 - [x] Add most recent price to a db table
 - [x] Send alert if any item's price changes (email/slack/sms?) - Use [apprise-api](https://github.com/bkonicek/apprise-api)?
+- [ ] Notify on new items added to the table?
 - [ ] Add logging
 - [ ] Bulk send price drops instead of individual emails
 - [x] Dockerize it
 - [ ] Get environment variables from external sources (e.g. KeyVault)
 - [x] Add CI
-- [x] Add CD
+- [ ] Add CD
 - [ ] Figure out where it should run from
