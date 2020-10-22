@@ -63,7 +63,8 @@ jobs:
       - name: Build and push to Docker Hub
         uses: docker/build-push-action@v1.1.1
         with:
-          tags: ${{ steps.variables.outputs.tags }}
+          tag_with_ref: true
+          # tags: ${{ steps.variables.outputs.tags }}
           repository: ${{ steps.variables.outputs.repo }}
           push: true
 #     - name: Test with pytest
