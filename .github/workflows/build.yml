@@ -6,8 +6,8 @@ name: PC Part Price Checker
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
+    tags:
+      - v*
 
 jobs:
   build:
@@ -25,9 +25,9 @@ jobs:
             VERSION=${GITHUB_REF#refs/tags/v}
           fi
 
-          TAGS="${VERSION}"
+          TAGS="${DOCKER_REPOSITORY}:${VERSION}"
           if [[ $VERSION =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-            TAGS="$TAGS, latest"
+            TAGS="$TAGS, ${DOCKER_REPOSITORY}:latest"
           fi
 
           echo ::set-output name=tags::${TAGS}
