@@ -36,7 +36,7 @@ def main():
     while True:
         print('Checking sheet for updated pricing...')
         # Call the Sheets API
-        sheet = service.spreadsheets()
+        sheet = service.spreadsheets()  # pylint: disable=no-member
 
         # Get prices for each category we're interested in
         for key in ITEMS.keys():
