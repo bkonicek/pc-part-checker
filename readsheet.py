@@ -22,7 +22,7 @@ DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST')
 
-CHECK_INTERVAL = int(os.getenv('CHECK_INTERVAL', 3600))
+CHECK_INTERVAL = int(os.getenv('CHECK_INTERVAL', '3600'))
 
 APPRISE_CONFIG_STRING = os.getenv('APPRISE_CONFIG_STRING', None)
 APPRISE_CONFIG_URL = os.getenv('APPRISE_CONFIG_URL', None)
@@ -82,13 +82,21 @@ def check_prices():
     else:
         for parts in update_list:
             if parts['current_price'] < parts['last_price']:
-                apprise_client.notify(
-                    body='<b><h2>Price Drop Alert</h2></b><br><p>%s: %s dropped <b>$%d</b>, new price: $%d' % (
-                        parts['type'], parts['name'], (parts['last_price'] - parts['current_price']), parts['current_price']),
-                    title='PC Part Price Drop'
-                )
                 print('%s price dropped $%s' %
                       (parts['name'], (parts['last_price'] - parts['current_price'])))
+                send_notification(apprise_client, parts)
+
+
+def send_notification(notif_client, part):
+    price_change = part['last_price'] - part['current_price']
+    res = notif_client.notify(
+        body="""
+<b><h2>Price Drop Alert</h2></b><br>
+<p>%s: %s dropped <b>$%d</b>, new price: $%d""" % (
+            part['type'], part['name'], price_change, part['current_price']),
+        title='PC Part Price Drop'
+    )
+    return res
 
 
 def getPrices(sheet, sheet_range, name):
