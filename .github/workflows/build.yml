@@ -52,7 +52,7 @@ jobs:
       - name: Lint with pylint
         run: |
           # report warnings but don't error
-          pylint readsheet.py --exit-zero --disable=E
+          pylint readsheet.py --exit-zero --disable=E,C0116,C0114
           # fail the build on any errors, unless disabled 
           pylint readsheet.py -E
 
