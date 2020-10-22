@@ -7,6 +7,8 @@ and I wanted to monitor it for any price changes.
 This is a work in progress and is definitely not going to be pretty code. If you see anything especially
 egregious feel free to let me know.
 
+I'm also treating this as a fun project to practice DevOps skills, so it's most likely going to end up incredibly over-engineered.
+
 ## Usage
 Set the following environment variables:
 - `SPREADSHEET_ID` - ID of the spreadsheet to pull from
@@ -26,5 +28,6 @@ Set the following environment variables:
 - [ ] Bulk send price drops instead of individual emails
 - [x] Dockerize it
 - [ ] Get environment variables from external sources (e.g. KeyVault)
-- [x] Add CI/CD pipeline
+- [x] Add CI
+- [x] Add CD
 - [ ] Figure out where it should run from
