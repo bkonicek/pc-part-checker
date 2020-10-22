@@ -24,5 +24,5 @@ Set the following environment variables:
 - [ ] Bulk send price drops instead of individual emails
 - [x] Dockerize it
 - [ ] Get environment variables from external sources (e.g. KeyVault)
-- [ ] Add CI/CD pipeline
+- [x] Add CI/CD pipeline
 - [ ] Figure out where it should run from
