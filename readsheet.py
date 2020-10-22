@@ -1,6 +1,6 @@
-from __future__ import print_function
 import os.path
 import pymongo
+import re
 from googleapiclient.discovery import build
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
@@ -20,6 +20,8 @@ DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST')
 
+update_list = []
+
 
 def main():
     service = build('sheets', 'v4', developerKey=API_KEY)
@@ -30,6 +32,10 @@ def main():
     # Get prices for each category we're interested in
     for key in ITEMS.keys():
         getPrices(sheet, ITEMS[key], key)
+    if len(update_list) > 0:
+        check_prices()
+    else:
+        print('No prices changed since last check')
 
 
 def insertPart(part, part_type):
@@ -37,14 +43,29 @@ def insertPart(part, part_type):
         "mongodb://%s/" % DB_HOST)
     db = client.parts
     collection = db[part_type]
+    # check if part already exists and update the price if necessary
     orig = collection.find_one_and_update(
-        {'name': part['name']}, {'$set': {'price': part['price']}})
+        {'name': part['name']}, {'$set': {'price': int(part['price'])}})
+    # if it doesn't exist add it
     if orig is None:
         collection.insert_one(part)
-        print("Inserted %s: %s" % (part_type, part['name']))
+        print("Inserted %s: %d" % (part_type, part['name']))
+    else:
+        # if the price has changed, add it to a list
+        if orig['price'] != part['price']:
+            update_list.append({
+                "type": part['type'],
+                "name": part['name'],
+                "last_price": int(orig['price']),
+                "current_price": int(part['price'])
+            })
 
-    # check_prices()
-    # print(db)
+
+def check_prices():
+    for parts in update_list:
+        if parts['current_price'] < parts['last_price']:
+            print('%s price dropped $%s' %
+                  (parts['name'], (parts['last_price'] - parts['current_price'])))
 
 
 def getPrices(sheet, sheet_range, name):
@@ -54,15 +75,19 @@ def getPrices(sheet, sheet_range, name):
     if not values:
         print('No data found.')
     else:
-        # print('%s, Price:' % name)
         for row in values:
-            # print('%s, %s' % (row[0], row[1]))
             part = {
                 "type": name,
-                "name": row[0],
-                "price": row[1]
+                "name": row[0]
             }
-            # print(part)
+            try:
+                part['price'] = int(row[1])
+            # if price is a range just use the max price
+            except:
+                p = re.compile(r'\d+\D+(\d+)')
+                m = p.match(row[1])
+                part['price'] = int(m.group(1))
+
             insertPart(part, name)
 
 
