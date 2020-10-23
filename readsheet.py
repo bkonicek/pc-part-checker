@@ -1,4 +1,5 @@
 import re
+import sys
 import time
 import os.path
 from pymongo import MongoClient, errors
@@ -50,10 +51,11 @@ def main():
 def insert_part(part, part_type):
     try:
         client = MongoClient(
-            "mongodb://%s/" % DB_HOST)
+            "mongodb://%s/" % DB_HOST, serverSelectionTimeoutMS=10000)
         client.server_info()
     except errors.ServerSelectionTimeoutError:
         print("Failed to connect to the database")
+        sys.exit(1)
     db = client.parts   # pylint: disable=invalid-name
     collection = db[part_type]
     # check if part already exists and update the price if necessary
