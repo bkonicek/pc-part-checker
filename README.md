@@ -12,6 +12,7 @@ egregious feel free to let me know.
 
 I'm also treating this as a fun project to practice DevOps skills, so it's most likely going to end up incredibly over-engineered.
 
+
 ## Usage
 Set the following environment variables:
 - `SHEET_ID` - ID of the spreadsheet to pull from
@@ -32,6 +33,9 @@ to create a notification config (see the [Apprise docs](https://github.com/caron
 Once you have the config, you can simulate a price drop by running `python test/pricechange.py`. On the next check
 interval you should receive a notification about a price change. You can do `docker logs -f price_check` to watch it
 happening in real-time.
+
+### Demo
+![](demo.gif)
 
 ## TODO
 - [x] Pull each item and its price per category I'm interested in from the table
