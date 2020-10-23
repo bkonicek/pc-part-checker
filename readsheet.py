@@ -64,7 +64,8 @@ def insert_part(part, part_type):
     # if it doesn't exist add it
     if orig is None:
         collection.insert_one(part)
-        print("Inserted %s: %s" % (part_type, part['name']))
+        print("Found new %s: %s, adding it to the database" %
+              (part_type, part['name']))
     else:
         # if the price has changed, add it to a list
         if orig['price'] != part['price']:
@@ -106,6 +107,8 @@ def send_notification(notif_client, part):
     )
     if not res:
         print('Failed to send notification')
+    else:
+        print('Successfully sent price change notification')
 
     return res
 

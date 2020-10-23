@@ -12,3 +12,5 @@ terraform/
 **/.terraform
 
 config/apprise-test.conf
+
+test/
