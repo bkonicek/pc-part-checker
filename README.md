@@ -37,6 +37,10 @@ happening in real-time.
 ### Demo
 ![](demo.gif)
 
+Example E-Mail Notification:
+
+![](notification.png)
+
 ## TODO
 - [x] Pull each item and its price per category I'm interested in from the table
 - [x] Add most recent price to a db table
