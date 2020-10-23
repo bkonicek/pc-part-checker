@@ -25,6 +25,14 @@ Also set one of:
 - `APPRISE_CONFIG_STRING` - Notification definition (useful for testing or if you don't want to manage config files)
 - `APPRISE_CONFIG_URL` - Path or URL to config file for apprise notifications (e.g. if using apprise-api)
 
+To test it out, run `docker-compose up -d`. If you're running it for the first time you will need to run
+`docker exec -it apprise chown www-data:www-data /config` and then access the Web UI via http://localhost:8000/cfg/apprise 
+to create a notification config (see the [Apprise docs](https://github.com/caronc/apprise/wiki) for examples)
+
+Once you have the config, you can simulate a price drop by running `python test/pricechange.py`. On the next check
+interval you should receive a notification about a price change. You can do `docker logs -f price_check` to watch it
+happening in real-time.
+
 ## TODO
 - [x] Pull each item and its price per category I'm interested in from the table
 - [x] Add most recent price to a db table
