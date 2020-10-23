@@ -1,8 +1,8 @@
 import re
-import os.path
 import time
-import pymongo
-import apprise
+import os.path
+from pymongo import MongoClient, errors
+from apprise import Apprise, AppriseConfig
 from googleapiclient.discovery import build
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
@@ -48,8 +48,12 @@ def main():
 
 
 def insert_part(part, part_type):
-    client = pymongo.MongoClient(
-        "mongodb://%s/" % DB_HOST)
+    try:
+        client = MongoClient(
+            "mongodb://%s/" % DB_HOST)
+        client.server_info()
+    except errors.ServerSelectionTimeoutError:
+        print("Failed to connect to the database")
     db = client.parts   # pylint: disable=invalid-name
     collection = db[part_type]
     # check if part already exists and update the price if necessary
@@ -72,11 +76,11 @@ def insert_part(part, part_type):
 
 
 def check_prices():
-    apprise_client = apprise.Apprise()
+    apprise_client = Apprise()
     if APPRISE_CONFIG_STRING:
         apprise_client.add(APPRISE_CONFIG_STRING)
     if APPRISE_CONFIG_URL:
-        config = apprise.AppriseConfig()
+        config = AppriseConfig()
         config.add(APPRISE_CONFIG_URL)
         apprise_client.add(config)
     if len(update_list) <= 0:

@@ -18,11 +18,10 @@ services:
     networks:
       - apprise
     volumes:
-      - ../../../Docker/docker-cloudflare-ddns/var/config:/config
+      - apprise-data:/config
 
   check:
-    build:
-      context: .
+    build: .
     container_name: price_check
     depends_on:
       - apprise
@@ -45,3 +44,4 @@ networks:
 
 volumes:
   db-data:
+  apprise-data:
