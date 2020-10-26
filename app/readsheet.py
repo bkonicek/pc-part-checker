@@ -97,6 +97,14 @@ def check_prices():
 
 
 def send_notification(notif_client, part):
+    # identify type of notification
+    # notif_types = []
+    # conf = notif_client.servers[0]
+    # servers = conf.servers()
+    # for server in servers:
+    #     notif_types.append(server)
+    # ','.join(notif_types)
+
     price_change = part['last_price'] - part['current_price']
     res = notif_client.notify(
         body="""

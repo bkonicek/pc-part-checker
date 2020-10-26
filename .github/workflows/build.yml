@@ -1,19 +1,24 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: PC Part Price Checker
+name: Build App
 
 on:
   push:
     branches: [master]
     tags:
       - v*
-    paths-ignore:
-      - "**/README.md"
-      - "**/.vscode/*"
+    paths:
+      - "**/app/*"
+      - "!**/README.md"
+      - "!**/.vscode"
+      - "!**/api/*"
 
 jobs:
   build:
+    defaults:
+      run:
+        working-directory: app
     runs-on: ubuntu-latest
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -38,6 +43,7 @@ jobs:
 
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=repo::${DOCKER_REPOSITORY}
+        working-directory: ./..
 
       - uses: actions/checkout@v2
       - name: Set up Python 3.7
@@ -73,6 +79,7 @@ jobs:
           repository: ${{ steps.variables.outputs.repo }}
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          path: "app"
           push: true
 
       #     - name: Test with pytest
