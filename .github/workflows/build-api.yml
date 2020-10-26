@@ -10,7 +10,7 @@ on:
       - v*
     paths:
       - "**/api/*"
-      - "**/.github/*"
+      - "**/.github/workflows/build-api.yml"
 
 jobs:
   build:
