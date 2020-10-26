@@ -4,7 +4,7 @@ services:
     image: mongo:latest
     container_name: mongodb
     ports:
-      - "27017:27017"
+      - "27018:27017"
     networks:
       - db
     volumes:
@@ -21,7 +21,7 @@ services:
       - apprise-data:/config
 
   check:
-    build: .
+    build: app
     container_name: price_check
     depends_on:
       - apprise
