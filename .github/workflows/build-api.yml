@@ -25,7 +25,7 @@ jobs:
         id: variables
         # adapted from https://github.com/caronc/apprise-api/blob/master/.github/workflows/build.yml
         run: |
-          DOCKER_REPOSITORY=bkonicek/pcpricechecker
+          DOCKER_REPOSITORY=bkonicek/pcpricechecker-api
           VERSION=edge
           echo $GITHUB_REF
           if [[ $GITHUB_REF == refs/tags/* ]]; then
@@ -40,6 +40,7 @@ jobs:
 
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=repo::${DOCKER_REPOSITORY}
+        working-directory: "./.."
 
       - uses: actions/checkout@v2
 
