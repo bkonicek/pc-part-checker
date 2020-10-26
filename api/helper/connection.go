@@ -10,19 +10,19 @@ import (
 )
 
 func ConnectDB() (db *mongo.Database, err error) {
-	db_host, ok := os.LookupEnv("DB_HOST")
+	dbHost, ok := os.LookupEnv("DB_HOST")
 	if !ok {
 		log.Fatalf("DB_HOST not set")
 	} else {
-		log.Printf("using %s for 'DB_HOST'", db_host)
+		log.Printf("using %s for 'DB_HOST'", dbHost)
 	}
-	client, err := mongo.NewClient(options.Client().ApplyURI(fmt.Sprintf("mongodb://%s", db_host)))
+	client, err := mongo.NewClient(options.Client().ApplyURI(fmt.Sprintf("mongodb://%s", dbHost)))
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Connected to MongoDB!")
+	log.Println("Connected to MongoDB!")
 
 	return client.Database("parts"), err
 }
