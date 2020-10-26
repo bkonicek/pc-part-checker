@@ -39,17 +39,23 @@ func main() {
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), r))
 }
 
+// GetParts handles GET requests to the /list path and returns
+// all parts from the database
 func GetParts(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprint(w, "Parts List\n")
 }
 
+// GetPart handles GET requests to the /list/{id} path and
+// returns a single part matching the ID in the request
 func GetPart(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	fmt.Fprintf(w, "Found part ID %s\n", vars["id"])
 }
 
-func parseJson(j io.ReadCloser) *models.Part {
+// parseJSON takes json-formatted input and
+// parses it into a Part struct
+func parseJSON(j io.ReadCloser) *models.Part {
 	decoder := json.NewDecoder(j)
 
 	var p models.Part
@@ -61,13 +67,17 @@ func parseJson(j io.ReadCloser) *models.Part {
 	return &p
 }
 
+// AddPart handles POST requests on the /add path and adds
+//  a part to the database using the body of the request
 func AddPart(w http.ResponseWriter, r *http.Request) {
-	p := parseJson(r.Body)
+	p := parseJSON(r.Body)
 	fmt.Printf("Added %s: $%d", p.Name, p.Price)
 }
 
+// UpdatePart handles requests to the /update/{id} path
+// and updates the given ID's name and price
 func UpdatePart(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	p := parseJson(r.Body)
+	p := parseJSON(r.Body)
 	fmt.Printf("Updated id %s: name: %s new price is $%d", vars["id"], p.Name, p.Price)
 }
