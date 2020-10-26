@@ -1,8 +1,12 @@
 package helper
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
 func TestConnectDB(t *testing.T) {
+	os.Setenv("DB_HOST", "localhost:27017")
 	db, err := ConnectDB()
 
 	if err != nil {
