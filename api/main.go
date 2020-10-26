@@ -34,9 +34,7 @@ func main() {
 	r.HandleFunc("/add", AddPart).Methods("POST")
 	r.HandleFunc("/update/{id}", UpdatePart).Methods("POST")
 
-	port := fmt.Sprintf("%s", getenv("API_PORT", "8000"))
-	fmt.Printf("Listening on %s\n", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), r))
+	log.Fatal(http.ListenAndServe(":8000", r))
 }
 
 // GetParts handles GET requests to the /list path and returns
