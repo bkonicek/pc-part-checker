@@ -50,6 +50,7 @@ Example E-Mail Notification:
 - [ ] Bulk send price drops instead of individual emails
 - [x] Dockerize it
 - [ ] Get environment variables from external sources (e.g. KeyVault)
+- [ ] Create microservice for DB functionality
 - [x] Add CI
 - [ ] Add CD
 - [ ] Figure out where it should run from
