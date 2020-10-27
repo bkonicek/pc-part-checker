@@ -13,7 +13,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func getenv(key, fallback string) string {
+func GetEnv(key, fallback string) string {
 	value := os.Getenv(key)
 	if len(value) == 0 {
 		return fallback
@@ -24,7 +24,7 @@ func getenv(key, fallback string) string {
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("error loading .env file")
+		log.Println("error loading .env file")
 	}
 
 	r := mux.NewRouter()
