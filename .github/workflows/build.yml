@@ -10,6 +10,7 @@ on:
       - v*
     paths:
       - "**/app/*"
+      - "!**/app/test/*"
       - "!**/README.md"
       - "!**/.vscode"
       - "!**/api/*"
