@@ -30,9 +30,9 @@ To test it out, run `docker-compose up -d`. If you're running it for the first t
 `docker exec -it apprise chown www-data:www-data /config` and then access the Web UI via http://localhost:8000/cfg/apprise 
 to create a notification config (see the [Apprise docs](https://github.com/caronc/apprise/wiki) for examples)
 
-Once you have the config, you can simulate a price drop by running `python test/pricechange.py`. On the next check
-interval you should receive a notification about a price change. You can do `docker logs -f price_check` to watch it
-happening in real-time.
+Once you have the config, you can simulate a price drop by running `python test/pricechange.py pricechange`. 
+Use `python test/pricechange.py dump` to view all the entries in one of the tables. On the next check interval you should 
+receive a notification about a price change. You can do `docker logs -f price_check` to watch it happening in real-time.
 
 ### Demo
 ![](demo.gif)
