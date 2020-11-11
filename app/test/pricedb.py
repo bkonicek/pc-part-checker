@@ -28,11 +28,11 @@ def list_all(client):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 2:
+    if len(sys.argv) != 2:
         print('Invalid number of arguments. Use either `pricechange` or `dump`')
         sys.exit(1)
     client = create_client()
-    if sys.argv[1] == 'pricechange' or len(sys.argv) == 1:
+    if sys.argv[1] == 'pricechange':
         price_change(client)
     elif sys.argv[1] == 'dump':
         list_all(client)
