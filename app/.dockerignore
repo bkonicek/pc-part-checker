@@ -6,6 +6,7 @@
 .vscode
 
 README.md
+Dockerfile
 
 terraform/
 **/*.tf

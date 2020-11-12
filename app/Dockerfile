@@ -18,4 +18,6 @@ COPY . .
 
 USER worker
 
+HEALTHCHECK NONE
+
 CMD ["python", "readsheet.py"]
