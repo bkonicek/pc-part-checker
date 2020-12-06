@@ -54,3 +54,8 @@ Example E-Mail Notification:
 - [x] Add CI
 - [ ] Add CD
 - [ ] Figure out where it should run from
+
+License
+-------
+
+MIT
