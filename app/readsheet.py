@@ -66,9 +66,11 @@ def insert_part(part, part_type):
         collection.insert_one(part)
         print("Found new %s: %s, adding it to the database" %
               (part_type, part['name']))
+        body, title = new_item_notif(part)
+        send_notification(body, title)
     else:
-        # if the price has changed, add it to a list
-        if orig['price'] != part['price']:
+        # if the price has dropped, add it to a list (we don't care about price increases)
+        if orig['price'] > part['price']:
             update_list.append({
                 "type": part['type'],
                 "name": part['name'],
@@ -79,13 +81,6 @@ def insert_part(part, part_type):
 
 
 def check_prices():
-    apprise_client = Apprise()
-    if APPRISE_CONFIG_STRING:
-        apprise_client.add(APPRISE_CONFIG_STRING)
-    if APPRISE_CONFIG_URL:
-        config = AppriseConfig()
-        config.add(APPRISE_CONFIG_URL)
-        apprise_client.add(config)
     if len(update_list) <= 0:
         print('No prices changed since last check')
     else:
@@ -93,30 +88,45 @@ def check_prices():
             if parts['current_price'] < parts['last_price']:
                 print('%s price dropped $%s' %
                       (parts['name'], (parts['last_price'] - parts['current_price'])))
-                send_notification(apprise_client, parts)
+                body, title = price_drop_notif(parts)
+                send_notification(body, title)
 
 
-def send_notification(notif_client, part):
-    # identify type of notification
-    # notif_types = []
-    # conf = notif_client.servers[0]
-    # servers = conf.servers()
-    # for server in servers:
-    #     notif_types.append(server)
-    # ','.join(notif_types)
-
+def price_drop_notif(part):
+    print('Setting price drop notification body')
     price_change = part['last_price'] - part['current_price']
-    res = notif_client.notify(
-        body="""
+    body = """
 <b><h2>Price Drop Alert</h2></b><br>
 <p>%s: %s dropped <b>$%d</b>, new price: $%d""" % (
-            part['type'], part['name'], price_change, part['current_price']),
-        title='PC Part Price Drop'
-    )
+        part['type'], part['name'], price_change, part['current_price'])
+    title = 'PC Part Price Drop'
+    return body, title
+
+
+def new_item_notif(part):
+    body = """
+<b><h2>New Part Alert</h2></b><br>
+<p>%s: %s added to database, Price: $%d""" % (
+        part['type'], part['name'], part['price'])
+    title = 'PC Part Added'
+    return body, title
+
+
+def send_notification(message, subject):
+    apprise_client = Apprise()
+    if APPRISE_CONFIG_STRING:
+        apprise_client.add(APPRISE_CONFIG_STRING)
+    if APPRISE_CONFIG_URL:
+        config = AppriseConfig()
+        config.add(APPRISE_CONFIG_URL)
+        apprise_client.add(config)
+
+    res = apprise_client.notify(body=message, title=subject)
+    print(res)
     if not res:
         print('Failed to send notification')
     else:
-        print('Successfully sent price change notification')
+        print('Successfully sent notification')
 
     return res
 
