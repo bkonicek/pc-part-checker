@@ -31,7 +31,7 @@ services:
       - apprise
     environment:
       ITEM_CATEGORIES: "CPU,GPU,Motherboard"
-      ITEM_RANGES: "A2:B23,C2:D,E2:F"
+      ITEM_RANGES: "A2:B,C2:D,E2:F"
       DB_HOST: "mongodb:27017"
       CHECK_INTERVAL: "60"
       SHEET_ID: ${SHEET_ID}
